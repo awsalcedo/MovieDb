@@ -32,6 +32,19 @@ class HomeViewModel @Inject constructor(private val repository: MovieRepository)
         }
     }
 
+    fun onEvent(event: HomeEvent) {
+        when (event) {
+            is HomeEvent.ChangeFilter -> {
+                if (event.filterType != state.selectedFilter) {
+                    state = state.copy(selectedFilter = event.filterType)
+                }
+
+            }
+            is HomeEvent.OnMovieClick -> {
+            }
+        }
+    }
+
     private suspend fun getUpcomingMovies() {
         viewModelScope.launch {
             repository.getUpcomingMovies().onSuccess { movies ->
